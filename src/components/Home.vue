@@ -22,18 +22,16 @@
                             <!-- 图标 -->
                             <i :class="iconsObj[item.id]"></i>
                             <!-- 文本 -->
-                            <span>{{item.authName}}</span>
+                            <span>{{item.label}}</span>
                         </template>
 
-
-
                         <!-- 二级菜单 -->
-                        <el-menu-item :index="'/' + subItem.path" v-for="subItem in item.children" :key="subItem.id" @click="saveNavState('/' + subItem.path)">
+                        <el-menu-item :index="subItem.url" v-for="subItem in item.children" :key="subItem.id" @click="saveNavState('/' + subItem.url)">
                             <template slot="title">
                                 <!-- 图标 -->
                                 <i class="el-icon-menu"></i>
                                 <!-- 文本 -->
-                                <span>{{subItem.authName}}</span>
+                                <span>{{subItem.label}}</span>
                             </template>
                         </el-menu-item>
                     </el-submenu>
@@ -79,10 +77,16 @@
 
             // 获取所有的菜单
             async getMenuList() {
-                const { data: res } = await this.$http.get('menus')
-                if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
-                this.menulist = res.data
-                console.log(res)
+                this.axios({
+                    method: 'post',
+                    url: 'userPermission/getUserPermissions',
+                    params: {userId: 1}
+                }).then((res) => {
+                    console.log(res.data.data);
+                    this.menulist = res.data.data;
+                    console.log(this.menulist)
+                })
+
             },
 
             // 点击按钮，切换菜单的折叠与展开
