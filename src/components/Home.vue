@@ -20,7 +20,7 @@
                         <!-- 一级菜单的模板区域 -->
                         <template slot="title">
                             <!-- 图标 -->
-                            <i :class="iconsObj[item.id]"></i>
+                            <i :class="item.icon"></i>
                             <!-- 文本 -->
                             <span>{{item.label}}</span>
                         </template>
@@ -52,20 +52,12 @@
             return {
                 // 左侧菜单数据
                 menulist: [],
-                iconsObj: {
-                    '125': 'iconfont icon-user',
-                    '103': 'iconfont icon-tijikongjian',
-                    '101': 'iconfont icon-shangpin',
-                    '102': 'iconfont icon-danju',
-                    '145': 'iconfont icon-baobiao'
-                },
                 // 是否折叠
                 isCollapse: false,
             }
         },
         created() {
             this.getMenuList()
-            this.activePath = window.sessionStorage.getItem('activePath')
         },
         methods: {
             logout() {
@@ -80,7 +72,6 @@
                     url: 'userPermission/getUserPermissions',
                     params: {userId: 1}
                 }).then((res) => {
-                    console.log(res.data.data);
                     this.menulist = res.data.data;
                 })
             },

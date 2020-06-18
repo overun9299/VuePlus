@@ -5,3 +5,23 @@ html , body,
     padding: 0;
     margin: 0;
 }
+
+.el-breadcrumb {
+    /*设置面包屑的下边距*/
+    margin-bottom: 15px;
+    font-size: 12px;
+}
+
+.el-card {
+    /*设置卡片阴影*/
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15) !important;
+}
+
+.el-table {
+    margin-top: 15px;
+    font-size: 12px;
+}
+
+.el-pagination {
+    margin-top: 15px;
+}

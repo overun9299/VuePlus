@@ -2,18 +2,22 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../components/Login.vue'
 import Home from '../components/Home.vue'
+import Welcome from '../components/Welcome.vue'
 import BaseMenu from '../components/base/BaseMenu.vue'
 import BasePriority from '../components/base/BasePriority.vue'
+import User from '../components/human/User.vue'
 
 Vue.use(VueRouter)
 
   const routes = [
       {path: '/', redirect: '/login'},
       {path: '/login', component: Login },
-      {path: '/home', component: Home, children:[
+      {path: '/home', component: Home, redirect: '/welcome', children:[
+          {path: '/welcome', component: Welcome},
           {path: '/menu', component: BaseMenu},
-          {path: '/priority', component: BasePriority}
-              ] },
+          {path: '/priority', component: BasePriority},
+          {path: '/user', component: User},
+              ]},
 ]
 
 const router = new VueRouter({
