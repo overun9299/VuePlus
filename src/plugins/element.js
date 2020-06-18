@@ -1,6 +1,7 @@
 // 按需导入element-ui组建
 import Vue from 'vue'
 import {
+    MessageBox,
     Button,
     Form,
     FormItem,
@@ -23,7 +24,8 @@ import {
     Switch,
     Tooltip,
     Pagination,
-    Dialog
+    Dialog,
+
 } from 'element-ui'
 
 Vue.use(Button)
@@ -48,4 +50,6 @@ Vue.use(Switch)
 Vue.use(Tooltip)
 Vue.use(Pagination)
 Vue.use(Dialog)
+
 Vue.prototype.$message = Message
+Vue.prototype.$confirm = MessageBox

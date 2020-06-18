@@ -31,7 +31,7 @@
                             v-model="scope.row.isLocked"
                             active-color="#ff4949"
                             inactive-color="#13ce66"
-                            @change="isLockedChange">
+                            @change="isLockedChange(scope.row.isLocked, scope.row.id)">
                     </el-switch>
                 </el-table-column>
                 <el-table-column prop="address" label="地址"></el-table-column>
@@ -71,8 +71,28 @@
             this.getUserList();
         },
         methods: {
-            isLockedChange(val) {
-                console.log(val);
+            //锁定、解锁用户
+            isLockedChange(val, v2) {
+                    this.axios({
+                        method: 'POST',
+                        url: 'user/lockOrUnLockUser',
+                        params : {
+                            userId: v2,
+                            lockedState: val
+                        }
+                    }).then((res) =>{
+                        if (res.data.success) {
+                            this.$message({
+                                type: 'success',
+                                message: val?'锁定成功':'解锁成功'
+                            });
+                        } else {
+                            this.$message({
+                                type: 'error',
+                                message: '操作失败!'
+                            });
+                        }
+                    })
             },
 
             // 修改每页多少条

@@ -72,7 +72,8 @@
                     url: 'userPermission/getUserPermissions',
                     params: {userId: 1}
                 }).then((res) => {
-                    this.menulist = res.data.data;
+                    sessionStorage.setItem('routers', res.data.data.routers)
+                    this.menulist = res.data.data.tree;
                 })
             },
 
