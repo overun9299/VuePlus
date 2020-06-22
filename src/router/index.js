@@ -6,6 +6,9 @@ import Welcome from '../components/Welcome.vue'
 import BaseMenu from '../components/base/BaseMenu.vue'
 import BasePriority from '../components/base/BasePriority.vue'
 import User from '../components/human/User.vue'
+import Person from '../components/human/Person.vue'
+import Auth from '../components/system/Auth.vue'
+import Other from '../components/system/Other.vue'
 
 Vue.use(VueRouter)
 
@@ -17,6 +20,9 @@ Vue.use(VueRouter)
           {path: '/menu', component: BaseMenu},
           {path: '/priority', component: BasePriority},
           {path: '/user', component: User},
+          {path: '/permiss', component: Auth},
+          {path: '/other', component: Other},
+          {path: '/person', component: Person},
               ]},
 ]
 

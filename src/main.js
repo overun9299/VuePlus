@@ -12,7 +12,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 
 // 配置请求的跟路径
-axios.defaults.baseURL = 'http://127.0.0.1:9100/ms/user/'
+axios.defaults.baseURL = 'http://www.overun.top/ms/user/'
 Vue.prototype.$http = axios
 
 // 设置axios全局拦截器
