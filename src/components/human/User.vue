@@ -75,7 +75,7 @@
             isLockedChange(val, v2) {
                     this.axios({
                         method: 'POST',
-                        url: 'user/lockOrUnLockUser',
+                        url: 'user/user/lockOrUnLockUser',
                         params : {
                             userId: v2,
                             lockedState: val
@@ -112,7 +112,7 @@
             getUserList() {
                 this.axios({
                     method: "POST",
-                    url: "user/getUserListByPage",
+                    url: "user/user/getUserListByPage",
                     params: this.userQuery
                 }).then((res) =>{
                     this.total = res.data.data.total;

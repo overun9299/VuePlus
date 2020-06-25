@@ -60,7 +60,7 @@
                     if (!valid){ return } {
                         this.axios({
                             method: 'post',
-                            url: 'user/accredit',
+                            url: 'user/user/accredit',
                             params: this.loginForm
                         }).then((res) => {
                             if (res.data.success) {
