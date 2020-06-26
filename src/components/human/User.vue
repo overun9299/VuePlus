@@ -16,6 +16,9 @@
                 <el-col :span="4">
                     <el-button type="primary">添加用户</el-button>
                 </el-col>
+                <el-col :span="2" class="export_button" @click.native="exportUser">
+                    <el-button type="success">导出</el-button>
+                </el-col>
             </el-row>
             <!--table表格部分-->
             <el-table
@@ -94,6 +97,16 @@
                         }
                     })
             },
+            //导出用户
+            exportUser() {
+                this.axios({
+                    method: "POST",
+                    url: "export/user/getPersonListForExport",
+                    params: this.userQuery
+                }).then((res) =>{
+                    console.log(res.data)
+                })
+            },
 
             // 修改每页多少条
             handleSizeChange(val) {
@@ -125,4 +138,7 @@
 
 <style lang="less" scoped>
 
+    .export_button {
+        float: right;
+    }
 </style>
