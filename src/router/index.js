@@ -9,6 +9,7 @@ import User from '../components/human/User.vue'
 import Person from '../components/human/Person.vue'
 import Auth from '../components/system/Auth.vue'
 import Other from '../components/system/Other.vue'
+import Export from '../components/system/Export.vue'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,7 @@ Vue.use(VueRouter)
           {path: '/permiss', component: Auth},
           {path: '/other', component: Other},
           {path: '/person', component: Person},
+          {path: '/export', component: Export},
               ]},
 ]
 
