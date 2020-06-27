@@ -30,7 +30,7 @@
                     {{scope.row.state == '1'? '已完成':'未完成'}}
                 </el-table-column>
                 <el-table-column v-slot="scope" label="操作" width="180">
-
+                    <el-button type="primary" size="small" round v-if="scope.row.state == '1'" @click="downloadFile(scope.row.filePath)">下载</el-button>
                 </el-table-column>
             </el-table>
 
@@ -86,11 +86,19 @@
             getExportRecordList() {
                 this.axios({
                     method: "POST",
-                    url: "export/exportRecord/getExportRecordListByPage",
+                    url: "ms/export/exportRecord/getExportRecordListByPage",
                     params: this.userQuery
                 }).then((res) =>{
                     this.total = res.data.data.total;
                     this.tableData = res.data.data.records;
+                })
+            },
+
+            downloadFile(data) {
+                let url = 'www.overun.top/soap'+data.replace('/opt/file','');
+                this.axios({
+                    method: 'GET',
+                    url: 'soap'+data.replace('/opt/file','')
                 })
             }
         }

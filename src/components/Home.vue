@@ -69,7 +69,7 @@
             async getMenuList() {
                 this.axios({
                     method: 'post',
-                    url: 'user/userPermission/getUserPermissions',
+                    url: 'ms/user/userPermission/getUserPermissions',
                     params: {userId: 1}
                 }).then((res) => {
                     sessionStorage.setItem('routers', res.data.data.routers)

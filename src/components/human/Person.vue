@@ -72,7 +72,7 @@
             isLockedChange(val, v2) {
                 this.axios({
                     method: 'POST',
-                    url: 'user/user/lockOrUnLockUser',
+                    url: 'ms/user/user/lockOrUnLockUser',
                     params : {
                         userId: v2,
                         lockedState: val
@@ -95,7 +95,7 @@
             exportPerson() {
                 this.axios({
                     method: "POST",
-                    url: "export/person/getPersonListForExport",
+                    url: "ms/export/person/getPersonListForExport",
                     params: this.userQuery
                 }).then((res) =>{
                     console.log(res.data)
@@ -119,7 +119,7 @@
             getPersonList() {
                 this.axios({
                     method: "POST",
-                    url: "user/person/getPersonListByPage",
+                    url: "ms/user/person/getPersonListByPage",
                     params: this.userQuery
                 }).then((res) =>{
                     this.total = res.data.data.total;

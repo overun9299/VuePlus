@@ -12,8 +12,8 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 
 // 配置请求的跟路径
-// axios.defaults.baseURL = 'http://www.overun.top/ms/'
-axios.defaults.baseURL = 'http://www.zhangpy.com/ms/'
+axios.defaults.baseURL = 'http://www.overun.top/'
+// axios.defaults.baseURL = 'http://www.zhangpy.com/'
 Vue.prototype.$http = axios
 
 // 设置axios全局拦截器
