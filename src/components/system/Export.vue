@@ -95,11 +95,8 @@
             },
 
             downloadFile(data) {
-                let url = 'www.overun.top/soap'+data.replace('/opt/file','');
-                this.axios({
-                    method: 'GET',
-                    url: 'soap'+data.replace('/opt/file','')
-                })
+                let url = 'http://www.overun.top/soap'+data.replace('/opt/file','');
+                window.location.href = url;
             }
         }
     }
