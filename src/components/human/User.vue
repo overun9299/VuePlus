@@ -9,12 +9,12 @@
             <!-- 搜索与添加区域 -->
             <el-row :gutter="20">
                 <el-col :span="8">
-                    <el-input placeholder="请输入内容" clearable >
+                    <el-input placeholder="请输入内容" clearable>
                         <el-button slot="append" icon="el-icon-search"></el-button>
                     </el-input>
                 </el-col>
                 <el-col :span="4">
-                    <el-button type="primary">添加用户</el-button>
+                    <el-button type="primary" @click="addUserDialog = true">添加用户</el-button>
                 </el-col>
                 <el-col :span="2" class="export_button" @click.native="exportUser">
                     <el-button type="success">导出</el-button>
@@ -39,6 +39,31 @@
                 </el-table-column>
                 <el-table-column prop="address" label="地址"></el-table-column>
             </el-table>
+
+            <!--添加弹框-->
+            <el-dialog title="添加用户" :visible.sync="addUserDialog" width="30%" @close="addUserDialogClose">
+                <el-form :model="userForm" :rules="rules" ref="userFormRef" label-width="70px" class="demo-ruleForm">
+                    <el-form-item label="手机号" prop="phoneNum">
+                        <el-input v-model="userForm.phoneNum"></el-input>
+                    </el-form-item>
+                    <el-form-item label="用户名" prop="userName">
+                        <el-input v-model="userForm.userName"></el-input>
+                    </el-form-item>
+                    <el-form-item label="昵称" prop="nickName">
+                        <el-input v-model="userForm.nickName" placeholder="昵称默认手机号"></el-input>
+                    </el-form-item>
+                    <el-form-item label="密码" prop="password">
+                        <el-input v-model="userForm.password"></el-input>
+                    </el-form-item>
+                    <el-form-item label="备注" prop="remark">
+                        <el-input v-model="userForm.remark"></el-input>
+                    </el-form-item>
+                </el-form>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="addUserDialog = false">取 消</el-button>
+                    <el-button type="primary" @click="addUser">确 定</el-button>
+                </span>
+            </el-dialog>
 
             <!--分页-->
             <div class="block">
@@ -67,7 +92,30 @@
                 userQuery: {
                     page: 1,
                     limit: 10
+                },
+                // 控制弹出框显隐
+                addUserDialog: false,
+                // user添加
+                userForm: {
+                    nickName: '',
+                    phoneNum: '',
+                    userName: '',
+                    password: '',
+                    remark: ''
+                },
+                // 表单校验
+                rules: {
+                    phoneNum: [
+                        { required: true, message: '请输入手机号', trigger: 'blur' },
+                        { min: 11, max: 11, message: '长度11个字符', trigger: 'blur' }],
+                    userName: [
+                        { required: true, message: '请输入用户名', trigger: 'blur' },
+                        { min: 2, max: 7, message: '长度在 2 到 7 个字符', trigger: 'blur' }],
+                    password: [
+                        { required: true, message: '请输入密码', trigger: 'blur' },
+                        { min: 6, max: 12, message: '长度在 6 到 12 个字符', trigger: 'blur' }]
                 }
+
             }
         },
         created() {
@@ -76,26 +124,26 @@
         methods: {
             //锁定、解锁用户
             isLockedChange(val, v2) {
-                    this.axios({
-                        method: 'POST',
-                        url: 'ms/user/user/lockOrUnLockUser',
-                        params : {
-                            userId: v2,
-                            lockedState: val
-                        }
-                    }).then((res) =>{
-                        if (res.data.success) {
-                            this.$message({
-                                type: 'success',
-                                message: val?'锁定成功':'解锁成功'
-                            });
-                        } else {
-                            this.$message({
-                                type: 'error',
-                                message: '操作失败!'
-                            });
-                        }
-                    })
+                this.axios({
+                    method: 'POST',
+                    url: 'ms/user/user/lockOrUnLockUser',
+                    params: {
+                        userId: v2,
+                        lockedState: val
+                    }
+                }).then((res) => {
+                    if (res.data.success) {
+                        this.$message({
+                            type: 'success',
+                            message: val ? '锁定成功' : '解锁成功'
+                        });
+                    } else {
+                        this.$message({
+                            type: 'error',
+                            message: '操作失败!'
+                        });
+                    }
+                })
             },
             //导出用户
             exportUser() {
@@ -103,8 +151,39 @@
                     method: "POST",
                     url: "ms/export/user/getPersonListForExport",
                     params: this.userQuery
-                }).then((res) =>{
+                }).then((res) => {
                     console.log(res.data)
+                })
+            },
+
+            // 添加用户
+            addUser() {
+                this.$refs.userFormRef.validate(valid =>{
+                    if (!valid) return
+                    // 调用真正的添加请求
+                    this.axios({
+                        method: "POST",
+                        url: "ms/user/user/addUserByPhone",
+                        params: this.userForm
+                    }).then((res) => {
+                        if (res.data.success) {
+                            this.$message({
+                                type: 'success',
+                                message: '添加成功!'
+                            });
+                            // 关闭弹框
+                            this.addUserDialog=false
+                            //刷新列表
+                            this.getUserList();
+
+                            // this.addUserDialogClose();
+                        } else {
+                            this.$message({
+                                type: 'error',
+                                message: '添加失败!'
+                            });
+                        }
+                    })
                 })
             },
 
@@ -127,10 +206,15 @@
                     method: "POST",
                     url: "ms/user/user/getUserListByPage",
                     params: this.userQuery
-                }).then((res) =>{
+                }).then((res) => {
                     this.total = res.data.data.total;
                     this.tableData = res.data.data.records;
                 })
+            },
+
+            // 关闭弹框清除表单
+            addUserDialogClose() {
+                this.$refs.userFormRef.resetFields();
             }
         }
     }
