@@ -1,9 +1,17 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import './plugins/element.js'
+
+// 按需导入element
+// import './plugins/element.js'
+
+// 全局导入全部element
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';//样式文件一定要引入
+
 // 导入全局样式
 import './assets/css/global.css'
+
 // 导入字体图标
 import './assets/fonts/iconfont.css'
 
@@ -24,6 +32,7 @@ axios.interceptors.request.use(config =>{
 
 Vue.config.productionTip = false
 Vue.use(VueAxios,axios);
+Vue.use(ElementUI);
 
 new Vue({
   router,

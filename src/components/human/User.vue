@@ -37,12 +37,13 @@
                             @change="isLockedChange(scope.row.isLocked, scope.row.id)">
                     </el-switch>
                 </el-table-column>
-                <el-table-column prop="address" label="地址"></el-table-column>
+                <el-table-column prop="remark" label="备注" width="360"></el-table-column>
+                <el-table-column  label="操作" width="360"></el-table-column>
             </el-table>
 
             <!--添加弹框-->
-            <el-dialog title="添加用户" :visible.sync="addUserDialog" width="30%" @close="addUserDialogClose">
-                <el-form :model="userForm" :rules="rules" ref="userFormRef" label-width="70px" class="demo-ruleForm">
+            <el-dialog title="添加用户" :visible.sync="addUserDialog" width="35%" @close="addUserDialogClose">
+                <el-form :model="userForm" :rules="rules" ref="userFormRef" label-width="87px" class="demo-ruleForm">
                     <el-form-item label="手机号" prop="phoneNum">
                         <el-input v-model="userForm.phoneNum"></el-input>
                     </el-form-item>
@@ -53,8 +54,28 @@
                         <el-input v-model="userForm.nickName" placeholder="昵称默认手机号"></el-input>
                     </el-form-item>
                     <el-form-item label="密码" prop="password">
-                        <el-input v-model="userForm.password"></el-input>
+                        <el-input v-model="userForm.password" ></el-input>
                     </el-form-item>
+                    <el-form-item>
+                        <el-col :span="11" >
+                            <el-form-item label="默认验证码" prop="verificationCode" >
+                                <el-input v-model="userForm.verificationCode" ></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="11">
+                            <el-form-item label="优先级" prop="priority">
+                                <el-select v-model="userForm.priority" placeholder="请选择">
+                                    <el-option
+                                            v-for="item in priorityOptions"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                    </el-form-item>
+
                     <el-form-item label="备注" prop="remark">
                         <el-input v-model="userForm.remark"></el-input>
                     </el-form-item>
@@ -101,7 +122,9 @@
                     phoneNum: '',
                     userName: '',
                     password: '',
-                    remark: ''
+                    remark: '',
+                    verificationCode: '',
+                    priority: ''
                 },
                 // 表单校验
                 rules: {
@@ -114,7 +137,24 @@
                     password: [
                         { required: true, message: '请输入密码', trigger: 'blur' },
                         { min: 6, max: 12, message: '长度在 6 到 12 个字符', trigger: 'blur' }]
-                }
+                },
+                // 优先级选项
+                priorityOptions: [{
+                    value: '1',
+                    label: '最低'
+                }, {
+                    value: '2',
+                    label: '默认'
+                }, {
+                    value: '3',
+                    label: '稍高'
+                }, {
+                    value: '4',
+                    label: '高'
+                }, {
+                    value: '5',
+                    label: '最高'
+                }],
 
             }
         },
@@ -225,4 +265,5 @@
     .export_button {
         float: right;
     }
+
 </style>
