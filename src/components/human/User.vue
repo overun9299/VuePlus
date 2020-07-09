@@ -42,7 +42,10 @@
                     {{scope.row.priority|getPriority}}
                 </el-table-column>
                 <el-table-column prop="remark" label="备注" width="360"></el-table-column>
-                <el-table-column  label="操作" width="360"></el-table-column>
+                <el-table-column  label="操作" width="180">
+                    <el-button type="primary" icon="el-icon-edit" circle></el-button>
+                    <el-button type="danger" icon="el-icon-delete" circle></el-button>
+                </el-table-column>
             </el-table>
 
             <!--添加弹框-->
