@@ -37,6 +37,10 @@
                             @change="isLockedChange(scope.row.isLocked, scope.row.id)">
                     </el-switch>
                 </el-table-column>
+                <el-table-column prop="verificationCode" label="验证码" width="180"></el-table-column>
+                <el-table-column v-slot="scope" label="优先级" width="180">
+                    {{scope.row.priority|getPriority}}
+                </el-table-column>
                 <el-table-column prop="remark" label="备注" width="360"></el-table-column>
                 <el-table-column  label="操作" width="360"></el-table-column>
             </el-table>
@@ -251,11 +255,11 @@
                     this.tableData = res.data.data.records;
                 })
             },
-
             // 关闭弹框清除表单
             addUserDialogClose() {
                 this.$refs.userFormRef.resetFields();
-            }
+            },
+
         }
     }
 </script>
