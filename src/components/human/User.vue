@@ -14,7 +14,7 @@
                     </el-input>
                 </el-col>
                 <el-col :span="4">
-                    <el-button type="primary" @click="addUserDialog = true">添加用户</el-button>
+                    <el-button type="primary" @click.native="openAddUserDialog">添加用户</el-button>
                 </el-col>
                 <el-col :span="2" class="export_button" @click.native="exportUser">
                     <el-button type="success">导出</el-button>
@@ -42,14 +42,14 @@
                     {{scope.row.priority|getPriority}}
                 </el-table-column>
                 <el-table-column prop="remark" label="备注" width="360"></el-table-column>
-                <el-table-column  label="操作" width="180">
-                    <el-button type="primary" icon="el-icon-edit" circle></el-button>
+                <el-table-column v-slot="scope"  label="操作" width="180">
+                    <el-button type="primary" icon="el-icon-edit" circle @click.native="editUser(scope.row)"></el-button>
                     <el-button type="danger" icon="el-icon-delete" circle></el-button>
                 </el-table-column>
             </el-table>
 
             <!--添加弹框-->
-            <el-dialog title="添加用户" :visible.sync="addUserDialog" width="35%" @close="addUserDialogClose">
+            <el-dialog :title="titleMark" :visible.sync="addUserDialog" width="35%" @close="addUserDialogClose">
                 <el-form :model="userForm" :rules="rules" ref="userFormRef" label-width="87px" class="demo-ruleForm">
                     <el-form-item label="手机号" prop="phoneNum">
                         <el-input v-model="userForm.phoneNum"></el-input>
@@ -123,6 +123,7 @@
                 },
                 // 控制弹出框显隐
                 addUserDialog: false,
+                titleMark: '',
                 // user添加
                 userForm: {
                     nickName: '',
@@ -202,6 +203,11 @@
                     console.log(res.data)
                 })
             },
+            // 添加用户弹框
+            openAddUserDialog() {
+                this.addUserDialog = true;
+                this.titleMark = '添加用户';
+            },
 
             // 添加用户
             addUser() {
@@ -232,6 +238,12 @@
                         }
                     })
                 })
+            },
+            // 修改用户
+            editUser(val) {
+                this.userForm = val;
+                this.addUserDialog = true;
+                this.titleMark = '修改用户';
             },
 
             // 修改每页多少条
