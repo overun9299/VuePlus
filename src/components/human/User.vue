@@ -64,23 +64,26 @@
                         <el-input v-model="userForm.password" ></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-col :span="11" >
-                            <el-form-item label="默认验证码" prop="verificationCode" >
-                                <el-input v-model="userForm.verificationCode" ></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="11">
-                            <el-form-item label="优先级" prop="priority">
-                                <el-select v-model="userForm.priority" placeholder="请选择">
-                                    <el-option
-                                            v-for="item in priorityOptions"
-                                            :key="item.value"
-                                            :label="item.label"
-                                            :value="item.value">
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
+                        <el-row style="margin-left: -87px">
+                            <el-col :span="11" >
+                                <el-form-item label="默认验证码" prop="verificationCode" >
+                                    <el-input v-model="userForm.verificationCode" ></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="11">
+                                <el-form-item label="优先级" prop="priority">
+                                    <el-select v-model="userForm.priority" placeholder="请选择">
+                                        <el-option
+                                                v-for="item in priorityOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+
                     </el-form-item>
 
                     <el-form-item label="备注" prop="remark">

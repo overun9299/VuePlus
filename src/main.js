@@ -24,8 +24,8 @@ import filters from './filters';
 Object.keys(filters).forEach(k => Vue.filter(k, filters[k]));
 
 // 配置请求的跟路径
-// axios.defaults.baseURL = 'http://www.overun.top/'
-axios.defaults.baseURL = 'http://www.zhangpy.com/'
+axios.defaults.baseURL = 'http://www.overun.top/'
+// axios.defaults.baseURL = 'http://www.zhangpy.com/'
 Vue.prototype.$http = axios
 
 // 设置axios全局拦截器

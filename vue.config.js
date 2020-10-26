@@ -1,3 +1,7 @@
+
+
+
+
 module.exports = {
     publicPath: './',
     //该选项可以控制 webpack 如何通知「资源(asset)和入口起点超过指定文件限制」
@@ -13,6 +17,10 @@ module.exports = {
                 return assetFilename.endsWith('.js');
             }
         }
+    },
+    // 可进行配置端口号
+    devServer: {
+        port: 9299
     }
 }
 
