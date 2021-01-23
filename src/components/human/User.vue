@@ -9,8 +9,8 @@
             <!-- 搜索与添加区域 -->
             <el-row :gutter="20">
                 <el-col :span="8">
-                    <el-input placeholder="请输入内容" clearable>
-                        <el-button slot="append" icon="el-icon-search"></el-button>
+                    <el-input v-model="userQuery.keyword" placeholder="请输入内容" clearable>
+                        <el-button slot="append" icon="el-icon-search" @click="searchUser"></el-button>
                     </el-input>
                 </el-col>
                 <el-col :span="4">
@@ -122,7 +122,8 @@
                 tableData: [],
                 userQuery: {
                     page: 1,
-                    limit: 10
+                    limit: 10,
+                    keyword:''
                 },
                 // 控制弹出框显隐
                 addUserDialog: false,
@@ -212,6 +213,11 @@
                 this.titleMark = '添加用户';
             },
 
+            //搜索用户
+            searchUser() {
+              console.log(this.userQuery)
+            },
+
             // 添加用户
             addUser() {
                 this.$refs.userFormRef.validate(valid =>{
@@ -264,14 +270,10 @@
             },
 
             getUserList() {
-                this.axios({
-                    method: "POST",
-                    url: "ms/user/user/getUserListByPage",
-                    params: this.userQuery
-                }).then((res) => {
-                    this.total = res.data.data.total;
-                    this.tableData = res.data.data.records;
-                })
+              this.$post("ms/user/user/getUserListByPage",this.userQuery).then((res) => {
+                this.total = res.data.total;
+                this.tableData = res.data.records;
+              })
             },
             // 关闭弹框清除表单
             addUserDialogClose() {

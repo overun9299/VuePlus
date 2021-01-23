@@ -72,6 +72,8 @@
                             } else {
                                 return this.$message.error(res.data.msg)
                             }
+                        }).catch((err) => {
+                          console.log(err)
                         })
                     }
                     //   1.1 项目中出了登录之外的其他API接口，必须在登录之后才能访问

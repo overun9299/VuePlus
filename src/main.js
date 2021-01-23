@@ -19,20 +19,29 @@ import './assets/fonts/iconfont.css'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
+// 定义请求
+import {post,get,put,patch} from './utils/request'
+// 定义全局变量
+Vue.prototype.$post=post;
+Vue.prototype.$get=get;
+Vue.prototype.$put=put;
+Vue.prototype.$patch=patch;
+
 // 引入全局过滤器
 import filters from './filters';
 Object.keys(filters).forEach(k => Vue.filter(k, filters[k]));
 
 // 配置请求的跟路径
-axios.defaults.baseURL = 'http://www.overun.top/'
+// axios.defaults.baseURL = 'http://127.0.0.1:9000'
+// axios.defaults.baseURL = 'http://www.overun.top/'
 // axios.defaults.baseURL = 'http://www.zhangpy.com/'
 Vue.prototype.$http = axios
 
 // 设置axios全局拦截器
-axios.interceptors.request.use(config =>{
-  config.headers.token = window.sessionStorage.getItem("token")
-  return config
-})
+// axios.interceptors.request.use(config =>{
+//   config.headers.token = window.sessionStorage.getItem("token")
+//   return config
+// })
 
 Vue.config.productionTip = false
 Vue.use(VueAxios,axios);
