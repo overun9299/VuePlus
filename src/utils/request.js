@@ -15,7 +15,17 @@ if (process.env.NODE_ENV == 'development') {
 }
 // 请求超时 请求头
 axios.defaults.timeout = 10000
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+axios.defaults.headers.get['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+axios.defaults.transformRequest = [function (data) {
+    let src = ''
+    for (let item in data) {
+        src += encodeURIComponent(item) + '=' + encodeURIComponent(data[item]) + '&'
+    }
+    return src
+}]
 
 // 请求拦截器
 axios.interceptors.request.use(

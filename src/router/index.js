@@ -10,6 +10,8 @@ import Person from '../components/human/Person.vue'
 import Auth from '../components/system/Auth.vue'
 import Other from '../components/system/Other.vue'
 import Export from '../components/system/Export.vue'
+import GoodsReptile from '../components/business/goodsReptile.vue'
+import goodsList from '../components/business/goodsList.vue'
 
 Vue.use(VueRouter)
 
@@ -25,6 +27,8 @@ Vue.use(VueRouter)
           {path: '/other', component: Other},
           {path: '/person', component: Person},
           {path: '/export', component: Export},
+          {path: '/goodsReptile', component: GoodsReptile},
+          {path: '/goodsList', component: goodsList},
               ]},
 ]
 
