@@ -42,10 +42,21 @@ axios.interceptors.request.use(
 // 响应拦截器
 axios.interceptors.response.use(
     response => {
-      if (response.status === 200) {
-        return Promise.resolve(response);
-      } else {
-        return Promise.reject(response);
+      if (response.status == 200) {
+          if (response.data.success) {
+              Message({
+                  message: response.data.msg,
+                  duration: 1000,
+                  type: 'success'
+              });
+          } else {
+              Message({
+                  message: response.data.msg,
+                  duration: 1000,
+                  type: 'error'
+              });
+          }
+          return Promise.resolve(response);
       }
     },
     // 服务器状态码不是200的情况    
