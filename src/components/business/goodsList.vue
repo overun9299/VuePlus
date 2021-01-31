@@ -12,7 +12,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-input v-model="keyword" placeholder="请输入内容" clearable>
-            <el-button slot="append" icon="el-icon-search" @click="getJDInfoToES"></el-button>
+            <el-button slot="append" icon="el-icon-search" @click="queryGoodsList"></el-button>
           </el-input>
         </el-col>
       </el-row>
@@ -79,13 +79,16 @@ export default {
     this.getGoodsList();
   },
   methods: {
-    getJDInfoToES() {
+    queryGoodsList() {
       let param = {
-        keyWord:this.keyword
+        keyWord:this.keyword,
+        page: 1,
+        limit: this.GoodsQuery.limit
       }
-      this.$get("/ms/search/goods/getJDInfoToES",param
+      this.$post("/ms/search/goods/queryESGoodsList",param
                   ).then(res=>{
-        console.log(res)
+        console.log(res.data)
+        this.tableData = res.data;
       })
     },
 
