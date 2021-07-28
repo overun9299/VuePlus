@@ -27,8 +27,11 @@
                     border
                     style="width: 100%">
                 <el-table-column type="index" label="#" :index="indexMethod"></el-table-column>
-                <el-table-column prop="fname" label="f姓名" width="180"></el-table-column>
-                <el-table-column prop="lname" label="l姓名" width="180"></el-table-column>
+                <el-table-column prop="fName" label="f姓名" width="180"></el-table-column>
+                <el-table-column prop="lName" label="l姓名" width="180"></el-table-column>
+                <el-table-column v-slot="scope" label="姓名" width="180">
+                    {{scope.row.fullName}}
+                </el-table-column>
                 <el-table-column prop="age" label="年龄" width="180"></el-table-column>
                 <el-table-column prop="address" label="地址" width="180"></el-table-column>
                 <el-table-column prop="describes" label="描述"></el-table-column>
@@ -40,7 +43,7 @@
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"
                         :current-page="userQuery.page"
-                        :page-sizes="[5, 10, 20, 50, 100]"
+                        :page-sizes="[5, 10, 20, 50, 100,10000,100000]"
                         :page-size="userQuery.limit"
                         layout="total, sizes, prev, pager, next, jumper"
                         :total="total">
@@ -61,7 +64,7 @@
                 userQuery: {
                     page: 1,
                     limit: 10,
-                    keyword:'123'
+                    keyword:''
                 }
             }
         },

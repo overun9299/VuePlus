@@ -70,7 +70,7 @@
                 this.axios({
                     method: 'post',
                     url: 'ms/user/userPermission/getUserPermissions',
-                    params: {userId: 1}
+                    params: {userId: window.sessionStorage.getItem("userId")}
                 }).then((res) => {
                     sessionStorage.setItem('routers', res.data.data.routers)
                     this.menulist = res.data.data.tree;

@@ -7,7 +7,7 @@ import router from '../router/index'
 
 //环境切换 
 if (process.env.NODE_ENV == 'development') {
-  axios.defaults.baseURL = 'http://127.0.0.1:9000';  //基础url + api.js中的 url
+  axios.defaults.baseURL = 'http://www.txjava.cn:9000';  //基础url + api.js中的 url
 } else if (process.env.NODE_ENV == 'debug') {
   axios.defaults.baseURL = 'https://localhost:80'
 } else if (process.env.NODE_ENV == 'production') {

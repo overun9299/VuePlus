@@ -1,34 +1,52 @@
 <template>
-    <div class="login_container">
-        <div class="login_box">
-            <!-- 头像区域 -->
-            <div class="avatar_box">
-                <img src="../assets/logo.png" alt="">
-            </div>
-            <!-- 登录表单区域 -->
-            <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" label-width="0px" class="login_form">
-                <!-- 用户名 -->
-                <el-form-item prop="phoneNum">
-                    <el-input v-model="loginForm.phoneNum" prefix-icon="iconfont icon-user"></el-input>
-                </el-form-item>
-                <!-- 密码 -->
-                <el-form-item prop="password">
-                    <el-input v-model="loginForm.password" prefix-icon="iconfont icon-3702mima" type="password"></el-input>
-                </el-form-item>
-                <!-- 按钮区域 -->
-                <el-form-item class="btns">
-                    <el-button type="primary" @click="login">登录</el-button>
-                    <el-button type="info" @click="resetLoginForm">重置</el-button>
-                </el-form-item>
-            </el-form>
-        </div>
-    </div>
+  <div class="login_container">
+      <div class="login_box">
+          <!-- 头像区域 -->
+          <div class="avatar_box">
+              <img src="../assets/logo.png" alt="">
+          </div>
+          <!-- 登录表单区域 -->
+          <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" label-width="0px" class="login_form">
+              <!-- 用户名 -->
+              <el-form-item prop="phoneNum">
+                  <el-input v-model="loginForm.phoneNum" prefix-icon="iconfont icon-user"></el-input>
+              </el-form-item>
+              <!-- 密码 -->
+              <el-form-item prop="password">
+                  <el-input v-model="loginForm.password" prefix-icon="iconfont icon-3702mima" type="password"></el-input>
+              </el-form-item>
+              <!-- 按钮区域 -->
+              <el-form-item class="btns">
+                  <el-button type="success" class="wechatLogin" circle  @click="wechatLoginDialogVisible = true">
+                    <i class="iconfont icon-weixindenglu"></i>
+                  </el-button>
+                  <el-button type="primary" @click="login">登录</el-button>
+                  <el-button type="info" @click="resetLoginForm">重置</el-button>
+              </el-form-item>
+          </el-form>
+      </div>
+
+    <!-- 微信登录弹出框 -->
+    <el-dialog title="微信扫码登录" :visible.sync="wechatLoginDialogVisible" width="30%" :before-close="wechatLoginHandleClose">
+
+      <wxlogin :appid="'wx7287a60bb700fd21'" :scope="'snsapi_login'"  :redirect_uri="encodeURIComponent('http://localhost:9299/#/login')" ></wxlogin>
+
+    </el-dialog>
+  </div>
+
 </template>
 
 <script>
-    export default {
+
+import "@/assets/iconfont/iconfont.css"
+import wxlogin from 'vue-wxlogin';
+
+export default {
+  components: {wxlogin},
         data() {
             return {
+              // 微信登录弹出框
+              wechatLoginDialogVisible: false,
                 // 这是登录表单的数据绑定对象
                 loginForm: {
                     phoneNum: '',
@@ -49,12 +67,66 @@
                 }
             }
         },
-        methods: {
+
+
+    created () {
+
+      // 微信登录
+      if (this.$route.query.code) {
+        this.axios({
+          method: 'post',
+          url: 'ms/user/user/WxCallback',
+          params: {code:this.$route.query.code}
+        }).then((res) => {
+          if (res.data.success) {
+            this.$message.success("登陆成功")
+            // 1. 将登录成功之后的 token，保存到客户端的 sessionStorage 中
+            console.log(res.data);
+            window.sessionStorage.setItem('token', res.data.token)
+            window.sessionStorage.setItem('userId', res.data.data.id)
+            // 2. 通过编程式导航跳转到后台主页，路由地址是 /home
+            this.$router.push('/home')
+          } else {
+            return this.$message.error(res.data.msg)
+          }
+        }).catch((err) => {
+          console.log(err)
+        })
+
+      }
+      // if (this.$route.query.code) {
+      //   this.code = this.$route.query.code
+      //   let params = {}
+      //   params.appid = this.appid
+      //   params.secret = this.secret
+      //   params.code = this.code
+      //   params.grant_type = 'authorization_code'
+      //   getAccessToken(params).then((res) => {
+      //     if (res.code === 0) {
+      //       this.$cookie.set('token', res.token)
+      //       this.$router.replace({ name: 'home' })
+      //     } else if (res.code === 500) {
+      //       this.dialogVisible4 = true
+      //       this.openId = res.openId
+      //     } else {
+      //       this.$message({
+      //         message: res.msg,
+      //         type: 'error'
+      //       })
+      //     }
+      //   })
+      // }
+
+  },
+
+
+  methods: {
             // 点击重置按钮，重置登录表单
             resetLoginForm() {
                 // console.log(this);
                 this.$refs.loginFormRef.resetFields()
             },
+
             login() {
                 this.$refs.loginFormRef.validate(async valid => {
                     if (!valid){ return } {
@@ -66,7 +138,8 @@
                             if (res.data.success) {
                                 this.$message.success("登陆成功")
                                 // 1. 将登录成功之后的 token，保存到客户端的 sessionStorage 中
-                                window.sessionStorage.setItem('token', res.data.token)
+                              window.sessionStorage.setItem('token', res.data.token)
+                              window.sessionStorage.setItem('userId', res.data.data.id)
                                 // 2. 通过编程式导航跳转到后台主页，路由地址是 /home
                                 this.$router.push('/home')
                             } else {
@@ -82,12 +155,22 @@
 
                     //
                 })
-            }
+            },
+          // 微信登录弹出框关闭
+          wechatLoginHandleClose(done) {
+            done();
+          },
         }
     }
 </script>
 
 <style lang="less" scoped>
+
+
+    .wechatLogin {
+      position: absolute;
+      left: -252px;
+    }
     .login_container {
         background-color: #2b4b6b;
         height: 100%;
